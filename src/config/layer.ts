@@ -161,7 +161,7 @@ export class LayerRuleBuilder extends BasicRuleBuilder {
     ) {
       const isOptionalAny = isModifiersAny(this.layerModifiers) === 'optional'
       rule.manipulators.forEach((v) =>
-        this.addModifierAnyToManipulator(v, isOptionalAny),
+        addModifierAnyToManipulator(v, isOptionalAny),
       )
     }
 
@@ -184,33 +184,33 @@ export class LayerRuleBuilder extends BasicRuleBuilder {
 
     return rule
   }
+}
 
-  // If the layer has modifiers, set manipulator modifiers to { mandatory: ['any'] }
-  private addModifierAnyToManipulator(
-    manipulator: Manipulator,
-    isOptionalAny: boolean,
-  ) {
-    if (manipulator.type !== 'basic') return
-    if (manipulator.from.modifiers) {
-      const { mandatory, optional } = manipulator.from.modifiers
-      if (optional?.length || mandatory?.length) {
-        const isAny = isModifiersAny(manipulator.from.modifiers)
-        if (isAny === 'mandatory') {
-          manipulator.from.modifiers = { mandatory: ['any'] }
-        } else if (isAny === 'optional') {
-          manipulator.from.modifiers = { optional: ['any'] }
-        } else {
-          throw new Error(
-            'Layers with modifiers cannot have modifiers on manipulators',
-          )
-        }
-        return
+// If the layer has modifiers, set manipulator modifiers to { mandatory: ['any'] }
+export function addModifierAnyToManipulator(
+  manipulator: Manipulator,
+  isOptionalAny: boolean,
+) {
+  if (manipulator.type !== 'basic') return
+  if (manipulator.from.modifiers) {
+    const { mandatory, optional } = manipulator.from.modifiers
+    if (optional?.length || mandatory?.length) {
+      const isAny = isModifiersAny(manipulator.from.modifiers)
+      if (isAny === 'mandatory') {
+        manipulator.from.modifiers = { mandatory: ['any'] }
+      } else if (isAny === 'optional') {
+        manipulator.from.modifiers = { optional: ['any'] }
+      } else {
+        throw new Error(
+          'Layers with modifiers cannot have modifiers on manipulators',
+        )
       }
+      return
     }
-    manipulator.from.modifiers = isOptionalAny
-      ? { optional: ['any'] }
-      : { mandatory: ['any'] }
   }
+  manipulator.from.modifiers = isOptionalAny
+    ? { optional: ['any'] }
+    : { mandatory: ['any'] }
 }
 
 export function layerToggleManipulator(
@@ -293,7 +293,7 @@ export function layerToggleManipulator(
   return mergeManipulator(result)
 }
 
-function isModifiersAny({
+export function isModifiersAny({
   mandatory,
   optional,
 }: FromModifiers): keyof FromModifiers | null {

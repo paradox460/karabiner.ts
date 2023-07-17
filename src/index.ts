@@ -56,6 +56,7 @@ export type { LayerKeyCode, LayerKeyParam } from './config/layer.ts'
 export { layer, hyperLayer, modifierLayer } from './config/layer.ts'
 export { simlayer } from './config/simlayer.ts'
 export { duoLayer } from './config/duo-layer.ts'
+export { delayedLayer } from './config/delayed-layer.ts'
 
 // Configs
 export type { ModificationParameters } from './config/complex-modifications.ts'
@@ -63,6 +64,7 @@ export { defaultComplexModificationsParameters } from './config/complex-modifica
 export { defaultDoubleTapParameters } from './config/double-tap.ts'
 export { defaultSimlayerParameters } from './config/simlayer.ts'
 export { defaultDuoLayerParameters } from './config/duo-layer.ts'
+export { defaultDelayedLayerParameters } from './config/delayed-layer.ts'
 
 // Output
 export { complexModifications } from './config/complex-modifications.ts'
